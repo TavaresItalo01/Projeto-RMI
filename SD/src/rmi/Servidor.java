@@ -7,13 +7,17 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Servidor extends UnicastRemoteObject implements Servico {
 
-    private static final long serialVersionUID = 1L; // Evita warnings de serialização
+    private static final long serialVersionUID = 1L; // Evita warnings de serialização`
+    private Map<String, ContaBancaria> contas;
 
     protected Servidor() throws RemoteException {
         super();
+        contas = new HashMap<>();
     }
 
     public static void main(String[] args) {
@@ -58,4 +62,52 @@ public class Servidor extends UnicastRemoteObject implements Servico {
         }
         return peso / (altura * altura);
     }
+
+    @Override
+    public boolean cadastrarConta(String numeroConta) throws RemoteException {
+        if (contas.containsKey(numeroConta)) {
+            return false; // Conta já existe
+        }
+        contas.put(numeroConta, new ContaBancaria(numeroConta));
+        return true;
+    }
+
+    @Override
+    public boolean depositar(String numeroConta, double valor) throws RemoteException {
+        ContaBancaria conta = contas.get(numeroConta);
+        if (conta == null) {
+            return false; // Conta não encontrada
+        }
+        conta.depositar(valor);
+        return true;
+    }
+
+    @Override
+    public boolean sacar(String numeroConta, double valor) throws RemoteException {
+        ContaBancaria conta = contas.get(numeroConta);
+        if (conta == null) {
+            return false; // Conta não encontrada
+        }
+        return conta.sacar(valor);
+    }
+
+    @Override
+    public boolean excluirConta(String numeroConta) throws RemoteException {
+        ContaBancaria conta = contas.remove(numeroConta);
+        if (conta == null) {
+            return false; // Conta não encontrada
+        }
+        conta.excluir();
+        return true;
+    }
+
+    @Override
+    public double consultarSaldo(String numeroConta) throws RemoteException {
+        ContaBancaria conta = contas.get(numeroConta);
+        if (conta == null) {
+            return -1; // Conta não encontrada
+        }
+        return conta.getSaldo();
+    }
+
 }

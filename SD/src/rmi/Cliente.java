@@ -16,6 +16,15 @@ public class Cliente {
 
             System.out.println("Data e Hora do Servidor: " + servico.getDataHora());
             System.out.println("String invertida: " + servico.inverteString(palavra));
+
+            System.out.println("\n--- Calculadora de IMC ---");
+            System.out.print("Digite seu peso (em kg): ");
+            double peso = scanner.nextDouble();
+            System.out.print("Digite sua altura (em metros): ");
+            double altura = scanner.nextDouble();
+            
+            double imc = servico.calculaIMC(peso, altura);
+            System.out.printf("Seu IMC é: %.2f\n", imc);
             
             scanner.close();
         } catch (Exception e) {

@@ -8,4 +8,6 @@ public interface Servico extends Remote {
 	public String getDataHora() throws RemoteException;
 	
 	public String inverteString(String string) throws RemoteException;
+
+	double calculaIMC(double peso, double altura) throws RemoteException;
 }

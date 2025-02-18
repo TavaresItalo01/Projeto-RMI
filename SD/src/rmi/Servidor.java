@@ -50,4 +50,12 @@ public class Servidor extends UnicastRemoteObject implements Servico {
         retorno = strb.reverse().toString();
         return retorno;
     }
+
+    @Override
+    public double calculaIMC(double peso, double altura) throws RemoteException {
+        if (altura <= 0) {
+            throw new IllegalArgumentException("A altura deve ser maior que zero.");
+        }
+        return peso / (altura * altura);
+    }
 }

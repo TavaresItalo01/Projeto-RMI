@@ -23,8 +23,7 @@ public class Cliente {
             System.out.print("Digite sua altura (em metros): ");
             double altura = scanner.nextDouble();
             
-            double imc = servico.calculaIMC(peso, altura);
-            System.out.printf("Seu IMC é: %.2f\n", imc);
+            System.out.printf("Seu IMC é: %.2f\n", + servico.calculaIMC(peso, altura));
             
             scanner.close();
         } catch (Exception e) {
